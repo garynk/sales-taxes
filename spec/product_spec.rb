@@ -1,5 +1,4 @@
-require "minitest/autorun"
-require_relative "../product"
+require 'helper'
 
 describe SalesTaxes::Product do
   it "must return computed taxes for products that are not imported" do
@@ -7,6 +6,16 @@ describe SalesTaxes::Product do
     product.taxes.must_equal 2.5
   end
 
+  it "must strip imported prefix from name" do
+    product = SalesTaxes::Product.new("imported music CD", 1, 12.49, false)
+    product.name.must_equal "music CD"
+  end
+  
+    it "must strip imported token from name" do
+    product = SalesTaxes::Exempt.new("box of imported chocolates", 1, 12.49, false)
+    product.name.must_equal "box of chocolates"
+  end
+  
   it "must return computed taxes for imported products" do
     product = SalesTaxes::Product.new("imported shoes", 1, 89.99, true)
     product.taxes.must_equal 13.5
@@ -23,7 +32,17 @@ describe SalesTaxes::Product do
   end
   
   it "must return the total price including taxes" do
-    product = SalesTaxes::Product.new("book", 2, 12.49, false)
+    product = SalesTaxes::Exempt.new("book", 2, 12.49, false)
     product.total.must_equal 24.98
+  end
+  
+  it "must be represented as string" do
+    product = SalesTaxes::Exempt.new("book", 2, 12.49, false)
+    product.to_s.must_equal "2 book: 24.98"
+  end
+  
+  it "must be represented as a float with two numbers after the comma" do
+    product = SalesTaxes::Product.new("CD", 1, 12.49, false)
+    product.total.must_equal 13.74
   end
 end

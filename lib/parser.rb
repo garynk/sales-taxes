@@ -1,4 +1,4 @@
-require_relative "./product"
+require "product"
 
 module SalesTaxes
   class Parser
@@ -18,7 +18,7 @@ module SalesTaxes
     end
 
     private def name
-      @tokens.slice(1, @tokens.size - 3).join(" ")
+      @tokens.slice(1, 3).join(" ")
     end 
      
     private def price

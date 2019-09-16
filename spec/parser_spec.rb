@@ -1,5 +1,4 @@
-require "minitest/autorun"
-require_relative "../parser"
+require 'helper'
 
 describe SalesTaxes::Parser do
   it "must return a Product object when the input is a String" do
