@@ -1,33 +1,77 @@
-# Sales taxes problem
-This problem requires some kind of input. You are free to implement any mechanism for feeding input into your solution (for example, using hard coded data within a unit test). You should provide sufficient evidence that your solution is complete by, as a minimum, indicating that it works correctly against the supplied test data.
+# Table of Contents
+* [Scope](#scope)
+* [Design](#design)
+  * [Product](#product)
+  * [Parser](#parser)
+  * [ShoppingBag](#shoppingbag)
+  * [Renderer](#renderer)
+* [Installation](#installation)
+  * [Runtime](#runtime)
+  * [Dependencies](#dependencies)
+  * [Testing](#testing)
+  * [Gem](#gem)
+* [Usage](#usage)
 
-## PROBLEM: SALES TAXES
+# Scope
+This gem is the Ruby implementation of the `Sales Taxes` code-kata (for more information refer to the [OBJECTIVES](https://github.com/costajob/sales_taxes/blob/master/OBJECTIVES.md)).
 
-**Basic sales tax** is applicable at a rate of **10%** on all goods, **except** books, food, and medical products that are exempt. **Import duty** is an additional sales tax applicable on all imported goods at a rate of 5%, with no exemptions.
+# Design
+The code design follows the single responsibility principle by using a dedicated class/module for any specific task.
 
-When I purchase items I receive a receipt which lists the name of all the items and their price (including tax), finishing with the total cost of the items, and the total amounts of sales taxes paid. The rounding rules for sales tax are that for a tax rate of n%, a shelf price of p contains (np/100 rounded up to the nearest 0.05) amount of sales tax.
+## Product
+Represents the product data and the taxes rules. Uses polymorphism to deal with different tax types. Has a string appropriate representation.
 
-Write an application that prints out the receipt details for these shopping baskets...
+## Parser
+Embeds the parsing rules to detect and factory products given the appropriate input.
 
+## ShoppingBag
+A simple products bag. Includes a string representation with total values.
+
+## Renderer
+The renderer class accepts a file path and tokenize its content transforming each element in groups of shopping bag objects. Provides a string representation logic.
+
+# Installation
+
+## Runtime
+This library supports from `Ruby 2.4.1` on.
+
+## Dependencies
+There are no runtime dependencies, but some developments ones (testing).  
+Just clone the repository, move to the directory and use `bundler`:
+```shell
+bundle install
 ```
-INPUT:
 
-Input 1:
-2 book at 12.49
-1 music CD at 14.99
-1 chocolate bar at 0.85
+## Testing
+The code is covered by fast, isolated unit testing.  
+Move to the installation path and run them by:
+```shell
+bundle exec rake
+Run options: --seed 47327
 
-Input 2:
-1 imported box of chocolates at 10.00
-1 imported bottle of perfume at 47.50
+# Running:
 
-Input 3:
-1 imported bottle of perfume at 27.99
-1 bottle of perfume at 18.99
-1 packet of headache pills at 9.75
-3 box of imported chocolates at 11.25
+................
 
-OUTPUT
+Finished in 0.007032s, 2275.3129 runs/s, 4550.6257 assertions/s.
+
+16 runs, 32 assertions, 0 failures, 0 errors, 0 skips
+```
+
+## Gem
+The library is packaged as a `gem`. Build and install it by:
+```shell
+gem build sales_taxes.gemspec
+...
+gem install --local ./sales_taxes.gem
+```
+
+# Usage
+The gem provides a binary that accepts a path to the `input file`:
+```shell
+sales_taxes input.txt
+
+OUTPUT:
 
 Output 1:
 2 book: 24.98
@@ -50,11 +94,3 @@ Output 3:
 Sales Taxes: 7.80
 Total: 98.28
 ```
-
-## General requirements
-- You may use whatever programming language/platform you prefer. Use something that you know well.
-- You must release your work with an OSI-approved open source license of your choice.
-- You must deliver the sources of your application, with a README that explains how to compile and run it.
-- Add the code to your own Github account and send us the link.
-
-**IMPORTANT:**  Implement the requirements focusing on **writing the best code** you can produce.
